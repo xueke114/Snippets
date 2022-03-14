@@ -2,11 +2,11 @@
 
 - 2011到2020十年间中国8月份的NDVI变化情况
 
-    ![2011到2020十年间中国8月份的NDVI变化情况](./ChinaNDVI-Aug-2011-2020.gif)
+    ![2011到2020十年间中国8月份的NDVI变化情况](https://tvax3.sinaimg.cn/large/008lr3qvly1h096tglgc0g31i61e0b2a.gif)
 
 - 2017年3月到2018年2月（2017年四季）每月的NDVI变化情况
 
-    ![2017年3月到2018年2月每月的NDVI变化情况](./ChinaNDVI-201703-201802.gif)
+    ![2017年3月到2018年2月每月的NDVI变化情况](https://tva4.sinaimg.cn/large/008lr3qvly1h096tg762hg31i61e0npe.gif)
 
 ## usage
 
