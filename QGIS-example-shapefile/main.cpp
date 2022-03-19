@@ -1,12 +1,13 @@
-#include <iostream>
+#include <QMainWindow>
+#include <QMenuBar>
+#include <QFileInfo>
+#include <QFileDialog>
+
 #include <qgsvectorlayer.h>
 #include <qgsrasterlayer.h>
 #include <qgsmapcanvas.h>
 #include <qgsapplication.h>
-#include <QMainWindow>
-#include <QMenuBar>
-#include <QFileDialog>
-#include <QFileInfo>
+
 
 class TestViewer : public QMainWindow {
 Q_OBJECT
