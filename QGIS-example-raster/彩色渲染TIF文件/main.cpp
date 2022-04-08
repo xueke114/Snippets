@@ -32,6 +32,8 @@ class MyWindow : public QMainWindow {
 void MyWindow::onOpen() {
   auto fileName = QFileDialog::getOpenFileName(this, "打开一个tif文件", "./",
                                                "GTIFF文件(*.tif *.TIF)");
+  if(fileName.isEmpty())
+      return;
   auto fileBaseName = QFileInfo(fileName).baseName();
   auto* rasterLayer = new QgsRasterLayer(fileName, fileBaseName);
   // 所有SchemeColors可以通过QgsColorBrewerPalette::listSchemes()获取
