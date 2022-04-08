@@ -1,7 +1,9 @@
+#include <gdal/gdal_priv.h>
 #include <qgscolorbrewerpalette.h>
 #include <qgscolorramp.h>
 #include <qgscolorrampshader.h>
 #include <qgsmapcanvas.h>
+#include <qgsrasterbandstats.h>
 #include <qgsrasterlayer.h>
 #include <qgsrastershader.h>
 #include <qgssinglebandpseudocolorrenderer.h>
@@ -37,16 +39,22 @@ void MyWindow::onOpen() {
 
   fcn->setColorRampType(QgsColorRampShader::Interpolated);
   fcn->setClassificationMode(QgsColorRampShader::Continuous);
-  // TODO: 最大值最小值应该自动获取
-  float band_max = 7.7;
-  float band_min = 0;
-  float band_range = band_max - band_min;
+  GDALAllRegister();
+  auto* ds = (GDALDataset*)GDALOpen(fileName.toLocal8Bit(), GA_ReadOnly);
+  auto dsBand = ds->GetRasterBand(1);
+  double bandMin, bandMax, mean, std = 0.0;
+  dsBand->GetStatistics(1, 1, &bandMin, &bandMax, &mean, &std);
+  auto scale = dsBand->GetScale();
+  bandMax = bandMax * scale;
+  bandMin = bandMin * scale;
+  GDALClose(ds);
+
+  float band_range = bandMax - bandMin;
   float class_range = band_range / 9.0;
   QList<QgsColorRampShader::ColorRampItem> colorRampItemList = {};
   for (auto& color : colors) {
-    colorRampItemList.append(
-        QgsColorRampShader::ColorRampItem(band_min, color));
-    band_min += class_range;
+    colorRampItemList.append(QgsColorRampShader::ColorRampItem(bandMin, color));
+    bandMin += class_range;
   }
   fcn->setColorRampItemList(colorRampItemList);
 
