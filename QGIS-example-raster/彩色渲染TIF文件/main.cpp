@@ -1,4 +1,7 @@
-#include <gdal/gdal_priv.h>
+#if _MSC_VER
+#define _USE_MATH_DEFINES
+#endif
+#include <gdal_priv.h>
 #include <qgscolorbrewerpalette.h>
 #include <qgscolorramp.h>
 #include <qgscolorrampshader.h>
