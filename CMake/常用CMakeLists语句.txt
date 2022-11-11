@@ -1,0 +1,2 @@
+# 只Release模式下开启WIN32属性。即Rlease编译的可执行文件单独时没有控制台窗口，而Debug编译的有，目的是方便运行时调试
+set_target_properties(RsTools PROPERTIES WIN32_EXECUTABLE $<CONFIG:Release>)
