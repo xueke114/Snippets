@@ -31,7 +31,7 @@ sudo apt install -y r-cran-lme4 r-cran-irkernel r-cran-sp r-cran-stars r-cran-ti
 ## LaTeX 工具
 sudo apt install -y texstudio texlive-lang-chinese texlive-science texlive-pictures texlive-xetex latexmk biber 
 ## 系统工具
-sudo apt install -y opencl-headers intel-opencl-icd clinfo vlc ffmpeg fonts-wqy-microhei baobab xfce4-weather-plugin proxychains4 command-not-found apt-file  stellarium gimp inkscape blender simplescreenrecorder peek perl wine32  winetricks  shadowsocks-libev chrony gufw bash-completion screen openssh-server fish htop
+sudo apt install -y ocl-icd-opencl-dev opencl-headers intel-opencl-icd clinfo vlc ffmpeg fonts-wqy-microhei baobab xfce4-weather-plugin proxychains4 command-not-found apt-file  stellarium gimp inkscape blender simplescreenrecorder peek perl wine32  winetricks  shadowsocks-libev chrony gufw bash-completion screen openssh-server fish htop
 ## 科研工具
 sudo apt install -y cdo gdal-bin gmt libreoffice-texmaths
 sudo apt install -y -t bullseye-backports qgis libreoffice  
