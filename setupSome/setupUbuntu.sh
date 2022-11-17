@@ -37,8 +37,9 @@ sudo apt install -y cdo gdal-bin gmt libreoffice-texmaths
 sudo apt install -y -t bullseye-backports qgis libreoffice  
 # 工具设置
 ## 设置 ss-local 
+sudo apt install -y shadowsocks-libev
 sudo nano /etc/shadowsocks-libev/config.json
-sudo sed '/s/ss-server/ss-local/' -i /lib/systemd/system/shadowsocks-libev.service
+sudo sed 's/ss-server/ss-local/' -i /lib/systemd/system/shadowsocks-libev.service
 sudo systemctl daemon-reload
 sudo systemctl restart shadowsocks-libev.service
 sudo systemctl status shadowsocks-libev.service
