@@ -1,2 +1,56 @@
 # 只Release模式下开启WIN32属性。即Rlease编译的可执行文件单独时没有控制台窗口，而Debug编译的有，目的是方便运行时调试
-set_target_properties(RsTools PROPERTIES WIN32_EXECUTABLE $<CONFIG:Release>)
+set_target_properties(targetName PROPERTIES WIN32_EXECUTABLE $<CONFIG:Release>)
+
+# 添加额外的编译选项
+if (MSVC)
+target_compile_options(targetName PRIVATE /source-charset:utf-8 /execution-charset:gbk)
+endif ()
+
+# 链接HDF5
+# 可能需要设置环境变量HDF5_ROOT
+find_package(HDF5 COMPONENTS CXX)
+target_link_libraries(targetName ${HDF5_CXX_LIBRARIES})
+
+# 链接GDAL
+# 可能需要设置环境变量GDAL_DIR
+find_package(GDAL)
+target_include_directories(targetName PRIVATE ${GDAL_INCLUDE_DIR})
+target_link_libraries(targetName PRIVATE ${GDAL_LIBRARY})
+
+# 链接Boost库
+# 可能需要设置环境变量BOOST_ROOT
+find_package(Boost REQUIRED COMPONENTS date_time filesystem)
+target_link_libraries(targetName Boost::date_time)
+
+# 链接Qt
+if (MSVC)
+    # 如果是使用OSGEO4W安装的qt5-devel
+    # 需要在PATH中添加两个路径
+    # PATH=C:\OSGeo4W\apps\Qt5\bin\;C:\OSGeo4W\bin
+    # 如果使用CLion，直接在编辑配置那，在环境变量那一栏粘贴上一行即可
+    # 如果启用了CMAKE_AUTOUIC，还需要把第8行复制到Clion设置CMake的环境一栏
+    # 以为了CMake配置时，运行uic不出错
+    list(APPEND CMAKE_PREFIX_PATH "C:/OSGeo4W/apps/Qt5/lib/cmake/Qt5")
+endif ()
+find_package(Qt5 COMPONENTS Widgets CONFIG REQUIRED)
+target_link_libraries(targetName Qt5::Widgets)
+
+# 链接QGIS
+if (MSVC)
+    # 如果是使用OSGEO4W安装的qt5-devel
+    # 需要在PATH中添加两个路径
+    # PATH=C:\OSGeo4W\apps\Qt5\bin\;C:\OSGeo4W\bin
+    # 如果使用CLion，直接在编辑配置那，在环境变量那一栏粘贴上一行即可
+    list(APPEND CMAKE_PREFIX_PATH "C:/OSGeo4W/apps/Qt5/lib/cmake/Qt5")
+    # 如果是使用 OSGEO4W 安装的 qgis-lrt-devel
+    # 需要设置两个环境变量
+    # OSGEO4W_ROOT=C:/OSGeo4W
+    # OSGEO4W_QGIS_SUBDIR=ltr
+    # 也可以在Clion 的CMAKE设置的环境栏，设置这两个变量
+    list(APPEND CMAKE_MODULE_PATH "C:/OSGeo4W/apps/qgis-ltr")
+endif ()
+find_package(QGIS)
+find_package(Qt5 COMPONENTS Widgets CONFIG REQUIRED)
+target_include_directories(targetName PRIVATE  ${QGIS_INCLUDE_DIR})
+target_link_libraries(targetName Qt5::Widgets ${QGIS_GUI_LIBRARY} ${QGIS_CORE_LIBRARY})
+
