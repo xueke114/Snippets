@@ -1,18 +1,14 @@
 // 测试使用C++ & OpenCL，逐像元计算2022年6月白天的30个MERSI SST正弦值的耗时
 // 每个MERSI SST文件的像元数3600x7200
-// 在联想小新Air 13Pro上，纯C++方法耗时77秒，OpenCL方法耗时20秒
+// 在联想小新Air 13Pro上，纯C++方法耗时77秒，OpenCL方法耗时17秒
 #include<cmath>
 #include<vector>
 #include<iostream>
 #include<algorithm>
 
 #include<H5Cpp.h>
-
-
 #include<boost/filesystem.hpp>
-#include<boost/multi_array.hpp>
-#include <boost/timer/timer.hpp>
-#include<boost/algorithm/string.hpp>
+#include<boost/timer/timer.hpp>
 #include<boost/xpressive/xpressive.hpp>
 #include<boost/compute/functional/math.hpp>
 #include<boost/compute/container/vector.hpp>
