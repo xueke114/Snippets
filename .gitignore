@@ -2,4 +2,8 @@ Assets
 exe
 .spyproject
 *.nc
-
+*.o
+*.cbp
+*.depend
+*.exe
+*.layout
