@@ -7,3 +7,4 @@ exe
 *.depend
 *.exe
 *.layout
+*.cscope_file_list
