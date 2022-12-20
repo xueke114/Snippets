@@ -1,1 +1,0 @@
-![errorEllipes](errorEllipes.webp)

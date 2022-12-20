@@ -72,5 +72,5 @@ ax.spines["top"].set_visible(False)
 ax.legend(prop=fontP)
 
 # 保存绘制结果为文件
-plt.savefig("errorEllipse.png", dpi=300)
+plt.savefig("Assets/errorEllipse.png", dpi=300)
 
