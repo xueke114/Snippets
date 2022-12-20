@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Assets
 exe
 .spyproject
@@ -8,3 +9,9 @@ exe
 *.exe
 *.layout
 *.cscope_file_list
+=======
+.idea
+cmake-build-*
+build*
+*.user
+>>>>>>> ec59dd9c1fa8fe5d7b192dc2695c5b91fa886374
