@@ -2,6 +2,7 @@ import json
 from urllib.request import urlopen
 from urllib.parse import urlencode
 
+from osgeo_utils.samples import ogr2ogr
 
 
 def get_province_extension(code, apikey):
@@ -25,9 +26,14 @@ def get_province_extension(code, apikey):
     return req_content["districts"][0]["polyline"]
 
 
-def output_extensions(extensions,outfile):
-    with open(outfile,mode="w") as out:
-        out.write(extensions.replace("|",";>;").replace(";","\n"))
+def output_extension(extension, outfile):
+    with open(outfile, mode="w") as out:
+        out.write("# @VGMT1.0 @GLINESTRING\n")
+        out.write('# @Jp"+proj=longlat +datum=WGS84 +no_defs"\n')
+        for old, new in [("|", ";>;"), (",", " "), (";", "\n")]:
+            extension = extension.replace(old, new)
+        out.write(extension)
+
 
 if __name__ == "__main__":
 
@@ -35,8 +41,17 @@ if __name__ == "__main__":
     ## adcode，见于 https://lbs.amap.com/api/webservice/download
     ## api_kay，见于 https://lbs.amap.com/dev/key
     adcode = 410000
-    api_key = "de49f02249102c20ad43cb73a45dfxxx"
-    output_file = "D:/GeoDatasets/HeNan.txt"
+    api_key = "de49f02249102c20ad43cb73a45df98b"
+    output_file = "C:/GeoDatasets/HeNan.txt"
+    output_shpfle = "C:/GeoDatasets/HeNan.shp"
 
-    extensions_str = get_province_extension(adcode, api_key)
-    output_extensions(extensions_str, output_file)
+    # 读取并保存边界坐标点
+    extension_str = get_province_extension(adcode, api_key)
+    output_extension(extension_str, output_file)
+
+    # 转换为shp文件
+    run = ogr2ogr.main(["", "-nlt", "POLYGON", output_shpfle, output_file])
+    if run == 0:
+        print("Output shapefile Successfully!!")
+    else:
+        print("Output shapefile failed!!")
