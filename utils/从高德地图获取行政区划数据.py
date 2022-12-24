@@ -2,7 +2,7 @@ import json
 from urllib.request import urlopen
 from urllib.parse import urlencode
 
-from osgeo_utils.samples import ogr2ogr
+from osgeo import gdal
 
 
 def get_province_extension(code, apikey):
@@ -50,8 +50,4 @@ if __name__ == "__main__":
     output_extension(extension_str, output_file)
 
     # 转换为shp文件
-    run = ogr2ogr.main(["", "-nlt", "POLYGON", output_shpfle, output_file])
-    if run == 0:
-        print("Output shapefile Successfully!!")
-    else:
-        print("Output shapefile failed!!")
+    gdal.VectorTranslate(output_shpfle, output_file, geometryType="POLYGON")
