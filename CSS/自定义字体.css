@@ -1,0 +1,9 @@
+@font-face {
+    font-family: "钉钉进步体 Regular";
+    font-weight: 400;
+    src: url("DingTalk_JinBuTi_Regular.woff2")
+}
+
+h1 {
+    font-family: "钉钉进步体 Regular";
+}
