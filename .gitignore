@@ -8,3 +8,4 @@ exe
 *.exe
 *.layout
 *.cscope_file_list
+*.out
