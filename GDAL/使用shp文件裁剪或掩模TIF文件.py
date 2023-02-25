@@ -1,4 +1,80 @@
 from osgeo import gdal
+from pathlib import Path
+
+
+def mask_tif_by_shapefile(
+    shapefile: str, tiffile: str, outputtif: str, inputNodata, outputNodata
+):
+    """
+    使用shape文件对tif文件进行掩模，并将输出栅格的范围与数据栅格的范围保持一致
+
+    Parameters
+    ----------
+    shapefile : str
+        shape文件的路径
+    tiffile : str
+        需要掩模的tif文件路径
+    outputtif : str
+        掩模后的tif文件路径
+    inputNodata : TYPE
+        输入数据的无效值
+    outputNodata : TYPE
+        输入数据的无效值
+
+    Returns
+    -------
+    None.
+
+    """
+    gdal.Warp(
+        format="GTiff",
+        cropToCutline=False,
+        srcNodata=inputNodata,
+        dstNodata=outputNodata,
+        cutlineDSName=shapefile,
+        srcDSOrSrcDSTab=tiffile,
+        destNameOrDestDS=outputtif,
+        cutlineLayer=Path(shapefile).stem,
+        creationOptions=["COMPRESS=DEFLATE"],
+    )
+
+
+def clip_tif_by_shapefile(
+    shapefile: str, tiffile: str, outputtif: str, inputNodata, outputNodata
+):
+    """
+    使用shape文件对tif文件进行裁剪，即将结果范围约束到shap文件的范围
+
+    Parameters
+    ----------
+    shapefile : str
+        shape文件的路径
+    tiffile : str
+        需要裁剪的tif文件路径
+    outputtif : str
+        裁剪后的tif文件路径
+    inputNodata : TYPE
+        输入数据的无效值
+    outputNodata : TYPE
+        输入数据的无效值
+
+    Returns
+    -------
+    None.
+
+    """
+    gdal.Warp(
+        format="GTiff",
+        cropToCutline=True,
+        srcNodata=inputNodata,
+        dstNodata=outputNodata,
+        cutlineDSName=shapefile,
+        srcDSOrSrcDSTab=tiffile,
+        destNameOrDestDS=outputtif,
+        cutlineLayer=Path(shapefile).stem,
+        creationOptions=["COMPRESS=DEFLATE"],
+    )
+
 
 if __name__ == "__main__":
     shpfile = "/home/xueke/GeoDatasets/塔克拉玛干沙漠边界-手绘/塔克拉玛干沙漠边界-手绘.shp"
@@ -6,33 +82,20 @@ if __name__ == "__main__":
     masked_outputfile = "MCQ12Q1-A2019001.Global.Masked.tif"
     cliped_outputfile = "MCQ12Q1-A2019001.Global.Cliped.tif"
 
-    # 掩膜：将输出栅格的范围与数据栅格的范围保持一致
-    # 注意：cropToCutline=False
-    # 关于cutlineLayer，一般应该是shp文件名
-    masked_ds = gdal.Warp(
-        srcNodata=255,
-        dstNodata=255,
-        format="GTiff",
-        cropToCutline=False,
-        cutlineDSName=shpfile,
-        srcDSOrSrcDSTab=tiffile,
-        destNameOrDestDS=masked_outputfile,
-        cutlineLayer="塔克拉玛干沙漠边界-手绘",
-        creationOptions=["COMPRESS=DEFLATE"],
+    # 掩模Demo
+    mask_tif_by_shapefile(
+        tiffile=tiffile,
+        inputNodata=255,
+        outputNodata=255,
+        shapefile=shpfile,
+        outputtif=masked_outputfile,
     )
 
-    # 裁剪，即将结果范围约束到shap文件的范围
-    # 实现方法：cropToCutline=True
-    cliped_ds = gdal.Warp(
-        srcNodata=255,
-        dstNodata=255,
-        format="GTiff",
-        cropToCutline=True,
-        cutlineDSName=shpfile,
-        srcDSOrSrcDSTab=tiffile,
-        destNameOrDestDS=cliped_outputfile,
-        cutlineLayer="塔克拉玛干沙漠边界-手绘",
-        creationOptions=["COMPRESS=DEFLATE"],
+    # 裁剪Demo
+    clip_tif_by_shapefile(
+        tiffile=tiffile,
+        inputNodata=255,
+        outputNodata=255,
+        shapefile=shpfile,
+        outputtif=cliped_outputfile,
     )
-
-    masked_ds, cliped_ds = None, None
