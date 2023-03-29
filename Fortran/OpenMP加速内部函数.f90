@@ -1,6 +1,9 @@
 ! 测试使用Fortan & openMP多线程，逐像元计算MERSI SST正弦值的耗时
 ! 每个MERSI SST文件的像元数3600x7200
 ! 在联想小新Air 13Pro上，纯Fortran方法耗时57秒，OpenMP方法耗时24秒
+! 编译指令
+! gfortran OpenMP加速内部函数.f90 -I /mingw64/include -lhdf5 -lhdf5_fortran
+! gfortran OpenMP加速内部函数.f90 -I /mingw64/include -lhdf5 -lhdf5_fortran -fopenmp
 PROGRAM testHDF5Performance
     USE hdf5
     IMPLICIT NONE
