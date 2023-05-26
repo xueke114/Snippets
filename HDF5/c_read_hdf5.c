@@ -59,7 +59,15 @@ int main() {
 	strcpy_s(filepath, file_path_len, filedir);
 	strcat_s(filepath, file_path_len, filename);
 
-
+	/*
+	flag可以选一下宏
+	- H5F_ACC_RDONLY 只读模式
+	- H5F_ACC_RDWR 读写模式
+	- H5F_ACC_TRUNC 覆盖模式
+	- H5F_ACC_EXCL 如果文件存在则失败
+	- H5F_ACC_CREAT 创建不存在的文件
+	- H5F_ACC_SWMR_WRITE 单写多读模式single-writer/multi-reader (SWMR)
+	*/
 	file_id = H5Fopen(filepath, H5F_ACC_RDONLY, H5P_DEFAULT);
 	list_all_vars_name(file_id);
 	status = H5Fclose(file_id);
