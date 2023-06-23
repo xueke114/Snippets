@@ -62,7 +62,7 @@ target_lon,target_lat = target_area.get_lonlats()
 
 # 5. 瓦片向目标区域重采样（重投影）
 result = kd_tree.resample_nearest(
-    fill_value=-3000,
+    fill_value=None,
     source_geo_def=modis_area,
     data=ndvi_array,
     target_geo_def=target_area,
@@ -70,9 +70,10 @@ result = kd_tree.resample_nearest(
 )
 
 # 6. 输出重采样重投影后的数据
-with h5py.File(output_file,mode="w") as h5obj:
-    h5obj["NDVI"]=result
+with h5py.File(output_file, mode="w") as h5obj:
+    h5obj["NDVI"] = result.filled(-3000)
     h5obj["lon"] = target_lon
     h5obj["lat"] = target_lat
-    h5obj["NDVI"].attrs["fill_value"]=-3000
-    h5obj["NDVI"].attrs["scale_factor"]=1e-6
+    h5obj["NDVI"].attrs["fill_value"] = -3000
+    h5obj["NDVI"].attrs["scale_factor"] = 1e-6
+    
