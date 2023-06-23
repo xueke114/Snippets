@@ -28,7 +28,7 @@ lowerright_x, lowerright_y = metadata[8].split("=")[-1][1:-1].split(",")
 modis_obj = SD(modis_file)
 ndvi_sd = modis_obj.select("1 km monthly NDVI")
 ndvi_array = ndvi_sd.get()
-mdvi_array = npm.masked_equal(ndvi_array, -3000) # 掩膜掉无效值，防止重采样时影响
+ndvi_array = npm.masked_equal(ndvi_array, -3000) # 掩膜掉无效值，防止重采样时影响
 
 # 3. 定义该瓦片的信息（用于pyresample识别）
 modis_area = create_area_def(
