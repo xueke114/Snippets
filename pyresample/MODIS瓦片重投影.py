@@ -18,6 +18,7 @@ output_file = "/home/xueke/Desktop/MODIS-pyresample-demo.hdf5"
 modis_obj = HDF(modis_file)  # 打开文件
 v = modis_obj.vstart()       # 初始化接口
 metadata = v.attach("StructMetadata.0").read()[0][0].splitlines()  # 获取属性信息
+ArchiveMetadata = v.attach("ArchiveMetadata.0").read()[0][0].splitlines()
 v.end()
 modis_obj.close()
 # 解析属性信息（角点坐标）
@@ -43,15 +44,17 @@ modis_area = create_area_def(
 
 # 4. 定义目标等经纬度网格（等经纬度投影、空间分辨率0.01度）
 # 瓦片边界的经纬度坐标
-upperleft_lon,lowerright_lat = modis_area.get_lonlat_from_projection_coordinates(upperleft_x, lowerright_y)
-lowerright_lon,upperleft_lat = modis_area.get_lonlat_from_projection_coordinates(lowerright_x, upperleft_y)
+NORTH = ArchiveMetadata[135].split("=")[-1][1:-1].split(",")[0]
+SOUTH = ArchiveMetadata[140].split("=")[-1][1:-1].split(",")[0]
+EAST = ArchiveMetadata[145].split("=")[-1][1:-1].split(",")[0]
+WEST = ArchiveMetadata[150].split("=")[-1][1:-1].split(",")[0]
 
 target_area = create_area_def(
     units="degrees",             # 单位 度
     area_id="target_area",       # 为area起个名字
     projection="EPSG:4326",      # 投影方式：EPSG: 4326
     resolution=0.01,             # 空间分辨率：0.01度
-    area_extent=(upperleft_lon, lowerright_lat, lowerright_lon, upperleft_lat) 
+    area_extent=(WEST, SOUTH, EAST, NORTH)
     # 目标区域在目标投影坐标系的边界。自定义的，也不一定是瓦片的边界。
     # 如果设置的比瓦片边界小，就相当于做了裁剪。
     # 如果设置的比瓦片边界大，那也不影响，无非是空缺像元多了。
