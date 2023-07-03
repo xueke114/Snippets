@@ -3,6 +3,8 @@ cmake-*
 .idea
 Assets
 exe
+.venv
+
 .spyproject
 *.nc
 *.o
