@@ -3,3 +3,4 @@ matplotlib==3.7.1
 netCDF4==1.6.3
 pyresample==1.27.0
 rasterio==1.3.7
+tensorflow-directml-plugin>=0.4.0.dev230202

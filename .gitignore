@@ -4,6 +4,7 @@ cmake-*
 Assets
 exe
 .venv
+venv
 
 .spyproject
 *.nc
