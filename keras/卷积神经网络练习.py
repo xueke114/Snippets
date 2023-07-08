@@ -49,7 +49,9 @@ expand_image = np.expand_dims(digit, axis=0)
 print(f'调整后的输入图像尺寸：{expand_image.shape}')
 pred = model.predict(expand_image)
 print('预测结果\n', pred)
-print(f'可以看出第6个label的可能性最大{pred[0][0]}，即该图是0的可能性最大')
+class_=np.argmax(pred[0])
+print(f'可以看出第{class_}个label的可能性最大{max(pred[0])*100}%')
+print(f'即该图是{class_}的可能性最大')
 
 # 画出来测试图像
 plt.imshow(digit, cmap=plt.cm.binary)
