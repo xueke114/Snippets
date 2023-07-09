@@ -1,3 +1,5 @@
+# from https://pyproj4.github.io/pyproj/stable/gotchas.html#upgrading-to-pyproj-2-from-pyproj-1
+
 from pyproj import Transformer
 
 transformer = Transformer.from_crs("EPSG:4326", "EPSG:6933")
