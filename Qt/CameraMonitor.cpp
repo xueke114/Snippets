@@ -19,7 +19,7 @@ class CameraMonitor: public QDialog {
   private:
     void initMainFace();
   private slots:
-    void cameraDiplay(int index);
+    void cameraDisplay(int index);
   private:
     QComboBox *comboBox;
     QVideoWidget *cameraWidget;
@@ -37,7 +37,7 @@ CameraMonitor::CameraMonitor() {
 
     // 事件绑定
     connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::close);
-    connect(comboBox, &QComboBox::currentIndexChanged, this, &CameraMonitor::cameraDiplay);
+    connect(comboBox, &QComboBox::currentIndexChanged, this, &CameraMonitor::cameraDisplay);
 
     // 罗列可用的相机设备
     cameras = QMediaDevices::videoInputs();
@@ -62,7 +62,7 @@ void CameraMonitor::initMainFace() {
     layout->addWidget(buttonBox, 2, 0, 1, 1);
 }
 
-void CameraMonitor::cameraDiplay(int index) {
+void CameraMonitor::cameraDisplay(int index) {
     if(index == -1)
         return;
 
@@ -80,4 +80,4 @@ int main(int argc, char*argv[]) {
     return app.exec();
 }
 
-#include "main.moc"
+#include "CameraMonitor.moc"
