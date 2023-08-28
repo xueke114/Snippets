@@ -57,3 +57,11 @@ target_link_libraries(targetName Qt5::Widgets ${QGIS_GUI_LIBRARY} ${QGIS_CORE_LI
 # 链接OpenCV
 find_package(OpenCV)
 target_link_libraries(targetName ${OpenCV_LIBS})
+
+# 链接Eigen3
+find_package(Eigen3 CONFIG REQUIRED)
+target_link_libraries(main  Eigen3::Eigen)
+
+# 链接GLFW3
+find_package(glfw3 CONFIG REQUIRED)
+target_link_libraries(main PRIVATE glfw)
