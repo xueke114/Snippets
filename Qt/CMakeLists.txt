@@ -11,11 +11,14 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
+add_executable(productRandomInt randomInt.cpp)
+target_link_libraries(productRandomInt PRIVATE Qt::Core)
+
 add_executable(fileSha256 获取文件的sha256.cpp)
 target_link_libraries(fileSha256 PRIVATE Qt::Core)
 
 add_executable(miniProgressBar miniProgressBar.cpp)
-target_link_libraries(miniProgressBar PRIVATE  Qt::Widgets Qt::Concurrent)
+target_link_libraries(miniProgressBar PRIVATE Qt::Widgets Qt::Concurrent)
 
 add_executable(autoManualCheckUpdate AutoManualCheckUpdate.cpp)
 target_link_libraries(autoManualCheckUpdate PRIVATE Qt::Widgets Qt::Network)
