@@ -29,7 +29,7 @@ int main() {
     auto height = GDALGetRasterYSize(bt_ds);
     std::vector<uint16_t> data(width * height);
     auto bt_band = GDALGetRasterBand(bt_ds, 1);
-    GDALRasterIO(bt_band, GF_Read, 0, 0, width, height, &data[0], width, height, GDT_UInt16, 0, 0);
+    GDALRasterIO(bt_band, GF_Read, 0, 0, width, height, data.data(), width, height, GDT_UInt16, 0, 0);
 
     std::cout << data[width] << std::endl;
 
