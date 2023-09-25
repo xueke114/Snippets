@@ -1,8 +1,11 @@
 // 测试使用C++ & OpenCL，逐像元计算2022年6月白天的30个MERSI SST正弦值的耗时
 // 每个MERSI SST文件的像元数3600x7200
 // 在联想小新Air 13Pro上，纯C++方法耗时77秒，OpenCL方法耗时17秒
+// 在机械革命CODE1 V2上，OpenCL方法耗时5.5秒
 // 编译指令(For AMD on Linux)
 // g++ OpenCL加速计算.cc -o helloOpenCL -I /usr/include/hdf5/serial/ -I /opt/rocm/include/ -L /usr/lib/x86_64-linux-gnu/hdf5/serial/  -L /opt/rocm/lib/ -lOpenCL -lboost_filesystem -lboost_timer -lhdf5 -lhdf5_cpp
+// 编译指令(For Windows)
+// cl OpenCL加速计算.cc  -o helloOpenCL /EHsc /I C:\OSGeo4W\include\boost-1_74 /I C:\OSGeo4W\include /MD /link /libpath:C:\OSGeo4W\lib\ libhdf5.lib libhdf5_cpp.lib opencl.lib szip.lib zlib.lib
 
 #include<cmath>
 #include<vector>

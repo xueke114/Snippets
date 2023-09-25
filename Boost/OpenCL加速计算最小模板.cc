@@ -1,3 +1,7 @@
+//
+// MSVC 编译指令
+// cl opencl-test.cpp /EHsc /I C:\OSGeo4W\include\boost-1_74 /I C:\OSGeo4W\include /MD /link /libpath:C:\OSGeo4W\lib\ libboost_chrono-vc142-mt-x64-1_74.lib opencl.lib
+
 #include<vector>
 #include<algorithm>
 #include<iostream>
