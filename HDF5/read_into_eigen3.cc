@@ -5,11 +5,9 @@
 #include<Eigen/Dense>
 #include<unsupported/Eigen/CXX11/Tensor>
 
-int main() {
-    //定义变量
-    std::string fileName = "Assets/FY3D_MWRIA_GBAL_L1_20220301_0242_010KM_MS.HDF";
+int main(int argc, char **argv) {
     // 打开文件
-    auto h5_obj = H5::H5File(fileName, H5F_ACC_RDONLY);
+    auto h5_obj = H5::H5File(argv[1], H5F_ACC_RDONLY);
     // 打开数据集
     auto lat_ds = h5_obj.openDataSet("Calibration/EARTH_OBSERVE_BT_10_to_89GHz");
     // 获取数据集形状
@@ -19,7 +17,7 @@ int main() {
     ds_space.getSimpleExtentDims(shape);
     std::cout << "Deep: " << shape[0] << " Height: " << shape[1] << " Width: " << shape[2] << std::endl;
     // 为ds分配空间
-    Eigen::Tensor<int16_t, 3,Eigen::RowMajor> eigen_data(shape[0], shape[1], shape[2]);
+    Eigen::Tensor<int16_t, 3, Eigen::RowMajor> eigen_data(shape[0], shape[1], shape[2]);
     // 读取ds
     lat_ds.read(eigen_data.data(), H5::PredType::NATIVE_INT16);
     // 输出ds（每前5维的(0,0)值）

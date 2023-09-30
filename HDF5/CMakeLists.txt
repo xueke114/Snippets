@@ -13,3 +13,12 @@ target_link_libraries(fortran-write PRIVATE ${HDF5_Fortran_LIBRARIES})
 #             所以还是自己编译源代码吧
 add_executable(cxx_list_all_variables list_all_variables.cpp)
 target_link_libraries(cxx_list_all_variables PRIVATE ${HDF5_CXX_LIBRARIES})
+
+if (UNIX)
+    set(EIGEN3_INCLUDE_DIR /usr/include/eigen3)
+elseif (WINDOWS)
+    set(EIGEN3_INCLUDE_DIR C:/Libs/eigen3/include/eigen3)
+endif ()
+include_directories(${EIGEN3_INCLUDE_DIR})
+add_executable(read_into_eigen3 read_into_eigen3.cc)
+target_link_libraries(read_into_eigen3 PRIVATE ${HDF5_CXX_LIBRARIES})
