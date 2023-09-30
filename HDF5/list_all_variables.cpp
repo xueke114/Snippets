@@ -1,27 +1,49 @@
 // 来自文心一言，有改动
-// 但递归似乎不是个好的方法，Clang-Tidy给标记出来了（但感觉很合适这个场景）
+// 原方法是递归，让它改栈实现了
 
 #include <H5Cpp.h>
 #include <iostream>
 #include <string>
+#include <stack>
 
-void print_group_names(const H5::Group &group, const std::string &indent = "") {
+void print_group_names(const H5::Group &group) {
     // 获取组的成员数量
     hsize_t num_members = group.getNumObjs();
+
     // 遍历组的所有成员
     for (hsize_t i = 0; i < num_members; i++) {
         // 获取成员的名称和类型
-        auto member_name = group.getObjnameByIdx(i);
-        auto member_type = group.getObjTypeByIdx(i);
-        // 如果成员是组，则递归打印其名称和子组的名称
+        H5std_string member_name = group.getObjnameByIdx(i);
+        H5G_obj_t member_type = group.getObjTypeByIdx(i);
+
+        // 如果成员是组，则将其添加到待处理组的栈中
         if (member_type == H5G_GROUP) {
-            std::cout << indent << "Group -> " << member_name << std::endl;
-            H5::Group subgroup(group.openGroup(member_name));
-            print_group_names(subgroup, indent + "  ");
+            std::cout << "/" << member_name << std::endl;
+            std::stack<H5::Group> groups;
+            groups.push(group.openGroup(member_name));
+
+            // 处理待处理的组，直到栈为空
+            while (!groups.empty()) {
+                H5::Group current_group = groups.top();
+                groups.pop();
+
+                num_members = current_group.getNumObjs();
+                for (hsize_t j = 0; j < num_members; j++) {
+                    H5std_string sub_member_name = current_group.getObjnameByIdx(j);
+                    H5G_obj_t sub_member_type = current_group.getObjTypeByIdx(j);
+
+                    if (sub_member_type == H5G_GROUP) {
+                        std::cout << "  " << sub_member_name << std::endl;
+                        groups.push(current_group.openGroup(sub_member_name));
+                    } else if (sub_member_type == H5G_DATASET) {
+                        std::cout << "  " << sub_member_name << std::endl;
+                    }
+                }
+            }
         }
             // 如果成员是数据集，则打印其名称
         else if (member_type == H5G_DATASET) {
-            std::cout << indent << "Datasets -> " << member_name << std::endl;
+            std::cout << "/" << member_name << std::endl;
         }
     }
 }
