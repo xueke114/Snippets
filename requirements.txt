@@ -1,7 +1,1 @@
-h5py
-tqdm
-numpy
-pygmt
-cartopy
-jupyterlab
-jupyterlab-language-pack-zh-CN
+pyqt5

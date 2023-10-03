@@ -5,6 +5,7 @@ Assets
 exe
 .venv
 venv
+.vscode
 
 .spyproject
 *.nc
