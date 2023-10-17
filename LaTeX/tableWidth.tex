@@ -1,0 +1,52 @@
+\documentclass{ctexart}
+
+\usepackage{tabu}
+\usepackage{caption}
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+\begin{document}
+在过去的各个历史时代，我们几乎到处都可以看到社会完全划分为各个不同的等级，看到社会地位分成的多种多样的层次。在古罗马，有贵族、骑士、平民、奴隶，在中世纪，有封建主、臣仆、行会师傅、帮工、农奴，而且几乎在每一个阶级内部又有一些特殊的阶层。
+
+从封建社会的灭亡中产生出来的现代资产阶级社会并没有消灭阶级对立。它只是用新的阶级、新的压迫条件、新的斗争形式代替了旧的。
+
+\begin{table}[h]
+	\caption{表格与文本等宽，单元格宽度根据X列的个数均匀分配，X列默认是对齐方式是居左}
+	\label{tab::kingdom-A}
+	\begin{tabularx}{\linewidth}{X|X|X}
+		\toprule
+		人物  & 年龄  & 阵营 \\
+		\midrule
+		曹操  & 100 & 魏  \\
+		诸葛亮 & 101 & 蜀  \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\begin{table}[h]
+	\caption{三国人物（表格与文本等宽，指定第一列的对齐方式为居中，宽度默认；其他列为居左，宽度由X自动分配）}
+	\label{tab::kingdom-B}
+	\begin{tabularx}{\linewidth}{c|X|X}
+		\toprule
+		人物  & 年龄  & 阵营 \\
+		\midrule
+		曹操  & 100 & 魏  \\
+		诸葛亮 & 101 & 蜀  \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\begin{table}[h]
+	\caption{对比表1，\textbf{使用tabu宏包实现}，表格与文本等宽，单元格宽度根据X列的个数均匀分配，设置X列的对齐方式为居中}
+	\label{tab::kingdom-C}
+	\begin{tabu} to \linewidth {X[c]|X[c]|X[c]}
+		\toprule
+		人物  & 年龄  & 阵营 \\
+		\midrule
+		曹操  & 100 & 魏  \\
+		诸葛亮 & 101 & 蜀  \\
+		\bottomrule
+	\end{tabu}
+\end{table}
+
+\end{document}

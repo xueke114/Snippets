@@ -17,3 +17,10 @@ venv
 *.cscope_file_list
 *.out
 *.hdf
+
+# LaTeX
+*.bak*
+*.log
+*.pdf
+*.aux
+*.synctex.gz
