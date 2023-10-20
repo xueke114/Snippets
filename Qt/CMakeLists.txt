@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Core Gui Widgets Concurrent Network Multimedia MultimediaWidgets REQUIRED)
+find_package(Qt5 COMPONENTS Core Gui Widgets Concurrent Network Multimedia MultimediaWidgets REQUIRED)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -28,3 +28,6 @@ target_link_libraries(cameraMonitor PRIVATE Qt::Widgets Qt::Multimedia Qt::Multi
 
 add_executable(commandLineParser commandLineParser.cpp)
 target_link_libraries(commandLineParser Qt::Core)
+
+add_executable(httpGet httpGet.cpp)
+target_link_libraries(httpGet Qt5::Core Qt5::Network)
