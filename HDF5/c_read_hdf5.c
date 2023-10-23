@@ -1,76 +1,33 @@
-#include<hdf5.h>
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-char* get_obj_name(hid_t objid,hsize_t index) {
-	ssize_t name_len = H5Lget_name_by_idx(objid, ".", H5_INDEX_NAME, H5_ITER_INC, index, NULL, 0, H5P_DEFAULT) + 1;
-	char* group_name = (char*)malloc(name_len);
-	H5Lget_name_by_idx(objid, ".", H5_INDEX_NAME, H5_ITER_INC, index, group_name, name_len, H5P_DEFAULT);
-	return group_name;
-}
-void list_all_vars_name(hid_t fileid) {
-	printf("List All Variables' Name\n");
+#include <hdf5.h>
 
-	H5G_info_t ginfo;
-	herr_t ret_value;
-	ret_value = H5Gget_info(fileid, &ginfo);
-	printf("Group Nummber is : %lld\n", ginfo.nlinks);
 
-	for (int i = 0; i < ginfo.nlinks; i++) {
-		printf("<Group> ");
-		char* group_name = get_obj_name(fileid, i);
-		printf("%s\n", group_name);
 
-		//打开Group，获取该Group下的Dataset个数
-		hid_t group_id = H5Gopen(fileid, group_name, H5P_DEFAULT);
-		ret_value = H5Gget_info(group_id, &ginfo);
-		printf("\tDatasets Number is: %lld\n", ginfo.nlinks);
+int
+main(void)
+{
 
-		for (int j = 0; j < ginfo.nlinks; j++) {
-			printf("\t<Dataset> | ");
-			char* dataset_name = get_obj_name(group_id, j);
-			//打开dataset，获取dataset的形状
-			hid_t dataset_id = H5Dopen(group_id, dataset_name, H5P_DEFAULT);
-			hid_t space_id = H5Dget_space(dataset_id);
-			int space_size = H5Sget_simple_extent_ndims(space_id);
-			hsize_t* shape = (hsize_t*)malloc(space_size);
-			H5Sget_simple_extent_dims(space_id, shape, NULL);
-			printf("<");
-			hsize_t *p = shape;
-			while (p<(shape+space_size))
-				printf("%lld x ", *p++);
-			
-			printf("\b\b\b> %s\n", dataset_name);
-		}
-	}
-}
+    hid_t  file_id, dataset_id; /* identifiers */
+    herr_t status;
+    const float  dset_data[2041][486];
+    const float
+    /* Open an existing file. */
+    file_id = H5Fopen("/mnt/c/Datasets/RS/AMSR2_L1B_BT-Pass-HeNan/GW1AM2_202201010435_218A_L1SGBTBR_2220220.h5", H5F_ACC_RDONLY, H5P_DEFAULT);
 
-int main() {
-	printf("你好, HDF5\n");
+    /* Open an existing dataset. */
+    dataset_id = H5Dopen(file_id, "Latitude of Observation Point for 89A", H5P_DEFAULT);
 
-	hsize_t file_path_len;
-	hid_t file_id;
-	herr_t status;
+    status = H5Dread(dataset_id, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, dset_data);
 
-	const char* filedir = "C:/Datasets/FY3D-MWRI-10000M-Global/Ascending/20220201/";
-	const char* filename = "FY3D_MWRIA_GBAL_L1_20220201_0115_010KM_MS.HDF";
-	file_path_len = strlen(filedir) + strlen(filename) + 2;
-	char* filepath = (char*)malloc(file_path_len);
-	strcpy_s(filepath, file_path_len, filedir);
-	strcat_s(filepath, file_path_len, filename);
+    /* Close the dataset. */
+    status = H5Dclose(dataset_id);
 
-	/*
-	flag可以选一下宏
-	- H5F_ACC_RDONLY 只读模式
-	- H5F_ACC_RDWR 读写模式
-	- H5F_ACC_TRUNC 覆盖模式
-	- H5F_ACC_EXCL 如果文件存在则失败
-	- H5F_ACC_CREAT 创建不存在的文件
-	- H5F_ACC_SWMR_WRITE 单写多读模式single-writer/multi-reader (SWMR)
-	*/
-	file_id = H5Fopen(filepath, H5F_ACC_RDONLY, H5P_DEFAULT);
-	list_all_vars_name(file_id);
-	status = H5Fclose(file_id);
+    /* Open an existing dataset. */
+    dataset_id = H5Dopen(file_id, "Longitude of Observation Point for 89A", H5P_DEFAULT);
 
-	return 0;
+    status = H5Dread(dataset_id, H5T_NATIVE_FLOAT, H5S_ALL, H5S_ALL, H5P_DEFAULT, dset_data);
+
+    /* Close the dataset. */
+    status = H5Dclose(dataset_id);
+    /* Close the file. */
+    status = H5Fclose(file_id);
 }
