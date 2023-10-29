@@ -2,4 +2,5 @@ pyqt5
 pygmt
 numpy
 xarray
+pypdf2
 pyresample
