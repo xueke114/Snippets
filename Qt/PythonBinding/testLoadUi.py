@@ -13,7 +13,7 @@ class TestDialog(QtWidgets.QDialog):
         self.pushButton.clicked.connect(self.on_push_button)
 
     def on_push_button(self):
-        print(self.lcd.intValue())
+        self.lcd.display(self.lcd.intValue()+1)
 
 
 if __name__ == "__main__":
