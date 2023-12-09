@@ -25,7 +25,9 @@ sudo apt install -y r-cran-lme4 r-cran-irkernel r-cran-sp r-cran-stars r-cran-ti
 ## LaTeX 工具
 sudo apt install -y texstudio texlive-lang-chinese texlive-science texlive-pictures texlive-xetex latexmk biber 
 ## 系统工具
-sudo apt install -y flatpak virtualbox virtualbox-ext-pack virtualbox-guest-additions-iso ocl-icd-opencl-dev opencl-headers intel-opencl-icd clinfo vlc ffmpeg fonts-wqy-microhei baobab proxychains4 apt-file  stellarium gimp inkscape blender simplescreenrecorder peek perl winetricks  shadowsocks-libev chrony gufw bash-completion screen openssh-server fish htop
+sudo apt install -y flatpak virtualbox virtualbox-ext-pack virtualbox-guest-additions-iso ocl-icd-opencl-dev intel-opencl-icd clinfo \
+  vlc ffmpeg fonts-wqy-microhei baobab proxychains4 apt-file  stellarium gimp inkscape blender simplescreenrecorder peek perl winetricks \
+  shadowsocks-libev chrony gufw bash-completion screen openssh-server fish htop
 ## 科研工具
 sudo apt install -y cdo gdal-bin gmt qgis
 
@@ -35,13 +37,10 @@ sudo apt install gnome-software-plugin-flatpak
 sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 sudo flatpak remote-modify flathub --url=https://mirror.sjtu.edu.cn/flathub
 
-## 设置 ss-local 
-sudo apt install -y shadowsocks-libev
-sudo nano /etc/shadowsocks-libev/config.json
-sudo sed 's/ss-server/ss-local/' -i /lib/systemd/system/shadowsocks-libev.service
-sudo systemctl daemon-reload
-sudo systemctl restart shadowsocks-libev.service
-sudo systemctl status shadowsocks-libev.service
+## 设置 v2ray
+bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
+wget https://github.com/v2rayA/v2rayA/releases/download/v2.2.4.3/installer_debian_x64_2.2.4.3.deb
+sudo dpkg -i installer_debian_x64_2.2.4.3.deb
 ## 设置 proxychains4
 sudo sed '/^socks4/d' -i /etc/proxychains4.conf
 echo "socks5 127.0.0.1 7070" | sudo tee -a /etc/proxychains4.conf
@@ -49,10 +48,10 @@ echo "socks5 127.0.0.1 7070" | sudo tee -a /etc/proxychains4.conf
 sudo mkdir -pm755 /etc/apt/keyrings
 sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
-sudo apt install --install-recommends winehq-stable
+sudo proxychins apt install --install-recommends winehq-stable
 WINEARCH=win32 WINEPREFIX=~/.wine wine wineboot
 ## 设置 pip
-pip config set global.index-url https://mirrors.cernet.edu.cn/pypi/web/simple
+pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
 ## jupyter notebook 扩展
 proxychains jupyter nbextension install https://github.com/drillan/jupyter-black/archive/master.zip --user
 jupyter nbextension enable jupyter-black-master/jupyter-black
