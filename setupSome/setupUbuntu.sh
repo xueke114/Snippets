@@ -41,20 +41,25 @@ sudo flatpak remote-modify flathub --url=https://mirror.sjtu.edu.cn/flathub
 bash <(curl -L https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 wget https://github.com/v2rayA/v2rayA/releases/download/v2.2.4.3/installer_debian_x64_2.2.4.3.deb
 sudo dpkg -i installer_debian_x64_2.2.4.3.deb
+
 ## 设置 proxychains4
 sudo sed '/^socks4/d' -i /etc/proxychains4.conf
 echo "socks5 127.0.0.1 7070" | sudo tee -a /etc/proxychains4.conf
+
 ## 设置 wine32
 sudo mkdir -pm755 /etc/apt/keyrings
 sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
 sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources
 sudo proxychins apt install --install-recommends winehq-stable
 WINEARCH=win32 WINEPREFIX=~/.wine wine wineboot
+
 ## 设置 pip
 pip config set global.index-url https://mirrors.bfsu.edu.cn/pypi/web/simple
+
 ## jupyter notebook 扩展
 proxychains jupyter nbextension install https://github.com/drillan/jupyter-black/archive/master.zip --user
 jupyter nbextension enable jupyter-black-master/jupyter-black
+
 ## 设置 git
 git config --global init.defaultBranch main
 git config --global user.name "Zheng Xueke"
@@ -63,10 +68,26 @@ git config --global user.email xueke0114@foxmail.com
 # 非apt仓库的软件
 ## flatpak
 flatpak install flathub io.github.shiftey.Desktop org.hdfgroup.HDFView -y
+
 ## snap
 sudo snap install typora zotero-snap
+
 ## Wine版微信
 sudo apt install libjpeg62
 proxychains winetricks riched20
 wget https://github.com/tom-snow/wechat-windows-versions/releases/download/v3.0.0.57/WeChatSetup-3.0.0.57.exe
 wine WeChatSetup-3.0.0.57.exe
+
+## pycharm
+wget "https://download.jetbrains.com/python/pycharm-community-2023.3.3.tar.gz"
+tar zxf pycharm-community-2023.3.3.tar.gz
+mkdir ~/Applications && mv pycharm-community-2023.3.3 ~/Applications
+echo "
+[Desktop Entry]
+Type=Application
+Name=Pycharm Community
+Terminal=false
+Categories=Development
+Exec=$HOME/Applications/pycharm-community-2023.3.3/bin/pycharm.sh
+Icon=$HOME/Applications/pycharm-community-2023.3.3/bin/pycharm.png
+" | tee $HOME/.local/share/applications/pycharm-community.desktop
