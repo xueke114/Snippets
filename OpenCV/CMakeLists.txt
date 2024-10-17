@@ -6,8 +6,8 @@ project(OpenCV-Demo)
 
 find_package(OpenCV)
 
-add_executable(openCamera 打开摄像头.cc)
+add_executable(openCamera openCamera.cc)
 target_link_libraries(openCamera PRIVATE ${OpenCV_LIBS})
 
-add_executable(drawWindow 绘制图形.cc)
-target_link_libraries(drawWindow PRIVATE ${OpenCV_LIBS})
+add_executable(drawGraph drawGraph.cc)
+target_link_libraries(drawGraph PRIVATE ${OpenCV_LIBS})
